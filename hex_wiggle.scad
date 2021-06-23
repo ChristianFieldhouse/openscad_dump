@@ -1,7 +1,7 @@
 res = 20;
 l = 20;
-hexx = 3;
-hexy = 3;
+hexx = 5;
+hexy = 5;
 bend = 5;
 start = 12;
 t = 1;
