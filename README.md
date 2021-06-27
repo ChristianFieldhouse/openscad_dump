@@ -25,4 +25,8 @@ pointed polygons
 
 Simple tree with 4-branching
 
+# wiggle.scad
 
+![image](https://user-images.githubusercontent.com/48842799/123543847-6e1ddc80-d748-11eb-936c-e1c82ed2353d.png)
+
+Snake-like springy pattern
