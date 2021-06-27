@@ -18,3 +18,11 @@ Hoberman mechanism
 ![image](https://user-images.githubusercontent.com/48842799/123541442-8a1b8100-d73c-11eb-8e99-d524c463699c.png)
 
 pointed polygons
+
+# simple_tree.scad
+
+![image](https://user-images.githubusercontent.com/48842799/123543786-1da67f00-d748-11eb-9f65-583ba12eedb8.png)
+
+Simple tree with 4-branching
+
+
