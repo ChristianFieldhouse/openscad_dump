@@ -1,25 +1,28 @@
 use <MCAD/regular_shapes.scad>
 
-l = 10;
-cn = 19;
-r = sqrt(3)*cn*l / (2*PI);
-echo(r);
-h = 150;
-fake_base_height = 100;
-t = 2;
+function shrinky(point, a, fake_base_height, r) = 
+    let(angle=a*point[0], rad=r * (fake_base_height + point[2])/fake_base_height)
+        [rad * sin(angle), rad * cos(angle), 0];
 
+function radialt(point, a, fake_base_height, r) =
+    let(angle=a*point[0] + 0.2*point[2])
+        (point[2] > 0) ? 
+            [r*sin(angle), r*cos(angle), point[2]] : 
+            shrinky(point, a, fake_base_height, r);
 
+function transform(point, radial=true, a, fake_base_height, r) =
+    radial ? radialt(point, a, fake_base_height, r) : point;
 
-function shrinky(point, a) = [r*sin(a*point[0]) * (fake_base_height + point[2])/fake_base_height, r*cos(a*point[0]) * (fake_base_height + point[2])/fake_base_height, 0];
-
-function radialt(point, a) = (point[2] > 0) ? [r*sin(a*point[0]), r*cos(a*point[0]), point[2]] : shrinky(point, a);
-
-function transform(point, radial=true, a) = radial ? radialt(point, a) : point;
-
-module line(start=[0, 0, 0], end=[1, 0, 0], t=2, radial=true){
+module line(
+    start=[0, 0, 0],
+    end=[1, 0, 0],
+    t=2, radial=true,
+    r=50, fake_base_height
+){
     a = (180/PI)/r;
-    start_ = transform(start, radial, a);
-    end_ = transform(end, radial, a);
+    start_ = transform(start, radial, a, fake_base_height, r);
+    //echo(start, start_, fake_base_height, r);
+    end_ = transform(end, radial, a, fake_base_height, r);
     hull(){
         translate(start_)
         sphere(t/2);
@@ -28,7 +31,14 @@ module line(start=[0, 0, 0], end=[1, 0, 0], t=2, radial=true){
     }
 }
 
-module strip(steps=3, offs=[0, 0, 0], flip=false){
+module strip_hex(
+    steps=3,
+    offs=[0, 0, 0],
+    flip=false,
+    r=50,
+    fake_base_height=100,
+    l=10
+){
     z0 = l;
     z1 = z0 + l/2;
     for (j = [0:1:steps-1]){
@@ -48,17 +58,41 @@ module strip(steps=3, offs=[0, 0, 0], flip=false){
             [x_offs + l*sqrt(3)   + offs[0], offs[1], z0 + offs[2]]
         ];
         for (i = [0:1:len(points)-2]){
-            line(points[i], points[i+1], t=2, $fn=10);
+            line(
+                points[i], points[i+1],
+                t=2, true, r=r, 
+                fake_base_height=fake_base_height, 
+                $fn=10
+            );
         }
     }
 }
 
-module wall(x=3, z=6){
+module wall_hex(x=3, z=6, fake_base_height=100, r=50, l=10){
     for (i = [0:1:z-1]){
-        strip(x, offs=[l*sqrt(3)/2 * (i%2), 0, l*1.5*i - fake_base_height + l/2], flip=(i%2==0));
+        strip_hex(
+            x,
+            offs=[l*sqrt(3)/2 * (i%2), 0, l*1.5*i - fake_base_height,],
+            flip=(i%2==0),
+            r=r,
+            fake_base_height=fake_base_height,
+            l=l
+        );
     }
 }
 
-zn = round((h + fake_base_height)/(1.5*l));
+module hex_container(
+    l = 10,
+    cn = 21,
+    h = 150,
+    t = 2,
+    base_density=1,
+){
+    r = sqrt(3)*cn*l / (2*PI);
+    echo(r);
+    fake_base_height = r*base_density;
+    zn = round((h + fake_base_height)/(1.5*l));
+    wall_hex(cn, zn, fake_base_height=fake_base_height, r=r, l=l);
+}
 
-wall(cn, zn);
+hex_container();
