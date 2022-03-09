@@ -20,5 +20,7 @@ module pointy(rad=3, fn = 2, verts=3, k=1, g=3) {
 }
 
 linear_extrude(height = 2, center = true, convexity = 10){
-    pointy(verts=20, fn=20, k=7, g=5, rad=20);
+    pointy(verts=4, fn=20, k=12, g=12, rad=10);
+    
+    translate([40, 0, 0]) pointy(verts=20, fn=20, k=7, g=7, rad=20);
 }

@@ -5,7 +5,7 @@ hexy = 5;
 bend = 5;
 start = 12;
 t = 1;
-
+s
 module sector(radius, angles, fn = 24) {
     r = radius / cos(180 / fn);
     step = -360 / fn;

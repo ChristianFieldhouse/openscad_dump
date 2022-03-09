@@ -18,10 +18,10 @@ module cap() {
 }
 
 num_sects = 6;
-alpha = 360/num_sects;
+alpha = 0; //360/num_sects;
 
-male = true;
-if (male) {
+
+module male() {
     translate([0, 0, h * 3/2]) cylinder(h * 2, axil_r, axil_r, center=true);
     translate([0, 0, 2*h]) cap();
     difference(){
@@ -39,7 +39,7 @@ if (male) {
     }
 }
 
-if (true) {
+module female(){
     translate([0, 0, h])
     difference(){
         union(){
@@ -55,6 +55,13 @@ if (true) {
     }
     translate([0, l/2 - w/2, -h * 1/2]) cylinder(h * 2, axil_r, axil_r, center=true);
     rotate(-alpha) translate([0, w/2 - l/2, -h * 1/2]) cylinder(h * 2, axil_r, axil_r, center=true);
+}
+
+for (i=[0:5]){
+    translate([i*(l-w)/2, i*(l-w)/2, 0]){
+        male();
+        female();
+    }
 }
 
 //cap();

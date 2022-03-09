@@ -6,9 +6,9 @@ up = 1;
 
 X = 3;
 Y = 3;
-Z = 3;
+Z = 4;
 
-angly = 4.5;
+angly = 3;
 
 translate([-1, 0, 0])
 rotate(90, [0, 1, 0])
