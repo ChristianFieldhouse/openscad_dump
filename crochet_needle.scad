@@ -1,12 +1,14 @@
 $fn = 20;
 
-handle_l = 10;
+s = 2;
+
+handle_l = 50;
 handle_r = 3;
 
 neck_r = 2;
 neck_l = 12;
 
-tip_r = 3;
+tip_r = 2.5;
 tip_l = 7;
 tip_h = 2.5;
 
@@ -44,4 +46,6 @@ module all(){
     hull(){post_tip(); hook();}
 }
 
-all();
+scale([s, s, s]){
+    all();
+}
